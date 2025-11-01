@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Таблица пользователей</title>
+</head>
+<body>
+<table border="2">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Возраст</th>
+        <th>Delete</th>
+        <th>Update</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.lastname}"></td>
+        <td th:text="${user.age}"></td>
+
+        <td>
+            <form th:action="@{/}" th:method="POST">
+                <button type="submit" th:name="id" th:value="${user.getId()}">Удалить</button>
+            </form>
+        </td>
+
+        <td>
+            <form th:action="@{/edit}" th:method="GET">
+                <button type="submit" th:name="id" th:value="${user.getId()}">Редактировать</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/addUser}" method="get">
+    <button type="submit">Добавить</button>
+</form>
+</body>
+</html>
