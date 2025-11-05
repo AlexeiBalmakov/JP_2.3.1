@@ -1,44 +1,44 @@
 package web.conroller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import web.Entity.User;
-import web.dao.UserDao;
+import web.entity.User;
+import web.service.UserService;
 
-@org.springframework.stereotype.Controller
-public class Controller {
+@Controller
+public class UserController {
 
-    private final UserDao userDao;
+    private final UserService userService;
 
-    public Controller(UserDao userDao) {
-        this.userDao = userDao;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/")
     public String getUsers(Model model) {
-        model.addAttribute("users", userDao.getAllUser());
+        model.addAttribute("users", userService.getAllUser());
         return "users";
     }
 
     @PostMapping("/")
     public String deleteUser(@RequestParam int id) {
-        userDao.deleteUser(id);
+        userService.deleteUser(id);
         return "redirect:/";
     }
 
     @GetMapping("/edit")
     public String getEditPage(@RequestParam int id, Model model) {
-        model.addAttribute("users", userDao.find(id));
+        model.addAttribute("users", userService.find(id));
         return "edit";
     }
 
     @PostMapping("/edit")
     public String updateUser(@ModelAttribute User user) {
-        System.out.println(user.getId());
-        userDao.updateUser(user);
+        userService.updateUser(user);
         return "redirect:/";
     }
 
@@ -50,7 +50,7 @@ public class Controller {
 
     @PostMapping("/addUser")
     public String addUser(@ModelAttribute User user) {
-        userDao.addUser(user);
+        userService.addUser(user);
         return "redirect:/";
     }
 
